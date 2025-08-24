@@ -12,6 +12,8 @@ const RotatingGallery: React.FC<RotatingGalleryProps> = ({ t }) => {
     // Stan do kontrolowania manualnej rotacji galerii
     const [rotationDegree, setRotationDegree] = React.useState<number | null>(null);
     const [isAutoRotating, setIsAutoRotating] = React.useState(true);
+    // Track which card is currently considered active (for brightness/overlay control)
+    const [currentIndex, setCurrentIndex] = React.useState<number>(0);
     
     // Funkcje do przesuwania galerii w lewo i w prawo
     const rotateLeft = () => {
@@ -49,27 +51,36 @@ const RotatingGallery: React.FC<RotatingGalleryProps> = ({ t }) => {
                         </button>
                         <div className={`gallery-box ${isAutoRotating ? 'auto-rotate' : ''}`} 
                              style={rotationDegree !== null ? { transform: `rotateY(${rotationDegree}deg)` } : undefined}>
-                            {displayMascots.map((mascot, index) => (
-                                <span key={index} style={{ '--i': index + 1 } as React.CSSProperties}>
-                                    <div className="mascot-card">
-                                        <div className="card-frame">
-                                            <img src={mascot.img} alt={mascot.alt} className="card-media" loading="lazy" />
-                                        </div>
-                                        <div className="card-info">
-                                            <div className="flex-1"></div>
-                                            <div>
-                                                <h3 className="card-title">{mascot.name.split(' ').map((word, i) => (
-                                                    <React.Fragment key={i}>
-                                                        {word}
-                                                        {i < mascot.name.split(' ').length - 1 && <br />}
-                                                    </React.Fragment>
-                                                ))}</h3>
-                                                <p className="card-subtitle">{mascot.subtitle}</p>
+                            {displayMascots.map((mascot, index) => {
+                                const isActive = index === currentIndex;
+                                return (
+                                    <span key={index} style={{ '--i': index + 1 } as React.CSSProperties}>
+                                        <div
+                                            className={"mascot-card" + (isActive ? ' is-active' : '')}
+                                            data-active={isActive ? 'true' : 'false'}
+                                            onMouseEnter={() => setCurrentIndex(index)}
+                                            onFocus={() => setCurrentIndex(index)}
+                                            onMouseLeave={() => { /* keep currentIndex until user hovers another */ }}
+                                        >
+                                            <div className="card-frame">
+                                                <img src={mascot.img} alt={mascot.alt} className={"card-media" + (isActive ? ' brightness-100 opacity-100' : ' brightness-90')} loading="lazy" />
+                                            </div>
+                                            <div className="card-info">
+                                                <div className="flex-1"></div>
+                                                <div>
+                                                    <h3 className="card-title">{mascot.name.split(' ').map((word, i) => (
+                                                        <React.Fragment key={i}>
+                                                            {word}
+                                                            {i < mascot.name.split(' ').length - 1 && <br />}
+                                                        </React.Fragment>
+                                                    ))}</h3>
+                                                    <p className="card-subtitle">{mascot.subtitle}</p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </span>
-                            ))}
+                                    </span>
+                                );
+                            })}
                         </div>
                         <button 
                             className="gallery-control-btn right" 
@@ -303,6 +314,10 @@ const RotatingGallery: React.FC<RotatingGalleryProps> = ({ t }) => {
                     max-width: 90%;
                     left: 5%; /* Center the card with reduced width */
                     transform-origin: center center;
+                }
+                /* Set overlay dim variable when card is active via data attribute */
+                .mascot-card[data-active="true"] {
+                    --card-dim: 0.05;
                 }
                 
                 /* Tilt the card on hover */
