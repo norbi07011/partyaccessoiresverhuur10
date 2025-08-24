@@ -104,7 +104,7 @@ const MediaLibrary: React.FC<MediaLibraryProps> = ({ t }) => {
                 <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-[1000]" onClick={() => setLightboxImage(null)}>
                     <button onClick={() => setLightboxImage(null)} className="absolute top-4 right-4 border border-[#4360ff] bg-[#0e1330] text-[#a8bdff] rounded-lg px-2.5 py-1.5 z-10">✕</button>
                     <figure className="max-w-[92vw] max-h-[90vh] p-4" onClick={e => e.stopPropagation()}>
-                        <img src={lightboxImage.src} alt={lightboxImage.alt} className="max-w-full max-h-[80vh] rounded-xl shadow-[0_0_40px_rgba(71,164,255,.4)]" />
+                        <img src={lightboxImage.src} alt={lightboxImage.alt} className="max-w-full max-h-[80vh] rounded-xl shadow-[0_0_40px_rgba(71,164,255,.4)] card-media" />
                         <figcaption className="text-[#c9d6ff] mt-2.5 text-center">{lightboxImage.alt}</figcaption>
                     </figure>
                 </div>
@@ -112,7 +112,7 @@ const MediaLibrary: React.FC<MediaLibraryProps> = ({ t }) => {
             <style>{`
                 .card { background: #0e1326; border: 1px solid rgba(108,122,255,.25); border-radius: 18px; overflow: hidden; box-shadow: 0 0 32px rgba(69,95,255,.18); display: flex; flex-direction: column; }
                 .thumb { position: relative; aspect-ratio: 16/9; background: #000; }
-                .media-item { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+                .media-item { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
                 .badge-lang { position: absolute; left: 10px; top: 10px; background: rgba(0,0,0,.55); border: 1px solid rgba(124,233,255,.5); color: #7ce9ff; display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; border-radius: 999px; font-weight: 800; font-size: 12px;}
                 .meta { padding: 10px 12px 0; }
                 .meta .title { font-weight: 800; }

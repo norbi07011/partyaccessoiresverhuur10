@@ -189,7 +189,7 @@ const EventPlanner: React.FC<EventPlannerProps> = ({ t, lang }) => {
                                                 const product = findProductByName(rec.productName);
                                                 return (
                                                     <div key={i} className="bg-black/20 p-3 rounded-lg border border-white/10 flex gap-4 items-center">
-                                                        {product && <img src={product.img} alt={product.name} className="w-16 h-16 rounded-md object-cover flex-shrink-0" />}
+                                                        {product && <img src={product.img} alt={product.name} className="w-16 h-16 rounded-md object-contain flex-shrink-0 card-media" />}
                                                         <div className="flex-grow">
                                                             <strong className="text-white">{rec.productName}</strong>
                                                             <p className="text-sm text-gray-400">{rec.reasoning}</p>

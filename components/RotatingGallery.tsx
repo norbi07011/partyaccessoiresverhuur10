@@ -52,7 +52,9 @@ const RotatingGallery: React.FC<RotatingGalleryProps> = ({ t }) => {
                             {displayMascots.map((mascot, index) => (
                                 <span key={index} style={{ '--i': index + 1 } as React.CSSProperties}>
                                     <div className="mascot-card">
-                                        <img src={mascot.img} alt={mascot.alt} className="card-bg" loading="lazy" />
+                                        <div className="card-frame">
+                                            <img src={mascot.img} alt={mascot.alt} className="card-media" loading="lazy" />
+                                        </div>
                                         <div className="card-info">
                                             <div className="flex-1"></div>
                                             <div>
@@ -310,21 +312,27 @@ const RotatingGallery: React.FC<RotatingGalleryProps> = ({ t }) => {
                 }
 
                 /* --- Card Layers --- */
-                .card-bg, .card-info {
+                .card-info {
                     position: absolute;
                     top: 0;
                     left: 0;
                     width: 100%;
                     height: 100%;
                 }
-                
-                .card-bg {
-                    object-fit: cover;
-                    border-radius: 16px;
-                    transition: transform 0.5s ease;
-                    height: 100%;
+                /* .card-media will handle object-fit: contain via global stylesheet */
+                .card-frame {
                     width: 100%;
+                    height: 100%;
+                    border-radius: 16px;
+                    overflow: hidden;
+                }
+                .card-media {
+                    border-radius: 12px;
+                    transition: transform 0.5s ease;
+                    width: 100%;
+                    height: 100%;
                     transform: translateZ(0);
+                    display: block;
                 }
                 
                 /* Zoom effect on hover */

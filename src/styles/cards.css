@@ -1,0 +1,28 @@
+:root {
+  --media-inset: clamp(6px, 1.2vw, 16px);
+}
+
+.card-frame {
+  aspect-ratio: 3 / 4;
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  padding: var(--media-inset);
+}
+
+.card-media {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+}
+
+.card-bg-contain {
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+}
