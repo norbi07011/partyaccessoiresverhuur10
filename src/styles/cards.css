@@ -33,36 +33,49 @@
   overflow: visible;
 }
 
-/* overlay to dim non-active cards; variable controls amount
-   Default reduced to make images more visible. Active card still gets
-   a separate --card-dim to remain highlighted. */
+/* overlay to dim cards; --card-dim controls amount. Default left at 0.35 per spec */
 .card::after, .mascot-card::after {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: rgba(0,0,0,var(--card-dim,0.18));
+  background: rgba(0,0,0,var(--card-dim,0.35));
   border-radius: inherit;
   transition: background 240ms ease;
 }
 
 /* active card should be much less dimmed */
 .card.is-active, .mascot-card.is-active {
-  /* active card much less dimmed */
-  --card-dim: 0.02;
+  /* active card should be much less dimmed (per request) */
+  --card-dim: 0.05;
 }
 
 /* Non-active cards get a mild image darkening (in addition to overlay) to emphasize active */
-.card:not(.is-active) .card-media,
-.mascot-card:not(.is-active) .card-media {
-  /* lighten the non-active image darkening so underlying media is clearer */
-  filter: brightness(0.90);
+.card:not(.is-active) img,
+.mascot-card:not(.is-active) img {
+  /* Keep a subtle darkening for non-active cards */
+  filter: brightness(0.85);
 }
 
 /* Keep active card media free of extra filters */
+.card.is-active,
 .card.is-active .card-media,
-.mascot-card.is-active .card-media {
+.card.is-active img,
+.mascot-card.is-active,
+.mascot-card.is-active .card-media,
+.mascot-card.is-active img {
+  /* Remove any filters/opacity/mix-blend-mode from active card and its children */
   filter: none !important;
+  -webkit-filter: none !important;
+  opacity: 1 !important;
+  mix-blend-mode: normal !important;
+}
+
+/* Also override any inherited filters inside an active card */
+.card.is-active *,
+.mascot-card.is-active * {
+  filter: none !important;
+  -webkit-filter: none !important;
 }
 
 /* Mobile-specific adjustments to avoid cropping and improve layout */
