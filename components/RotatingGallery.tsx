@@ -11,24 +11,34 @@ const RotatingGallery: React.FC<RotatingGalleryProps> = ({ t }) => {
     
     // Stan do kontrolowania manualnej rotacji galerii
     const [rotationDegree, setRotationDegree] = React.useState<number | null>(null);
-    const [isAutoRotating, setIsAutoRotating] = React.useState(true);
+    // Disable auto-rotate by default for preferred reduced motion / performance
+    const [isAutoRotating, setIsAutoRotating] = React.useState(false);
     // Track which card is currently considered active (for brightness/overlay control)
     const [currentIndex, setCurrentIndex] = React.useState<number>(0);
+    // Track image load errors per index to show fallback
+    const [imgError, setImgError] = React.useState<Record<number, boolean>>({});
     
     // Funkcje do przesuwania galerii w lewo i w prawo
     const rotateLeft = () => {
         setIsAutoRotating(false);
-        setRotationDegree(prev => (prev === null ? -45 : prev - 45));
+        setRotationDegree(prev => {
+            const next = (prev === null ? -45 : prev - 45);
+            // normalize angle to -360..360 range
+            return ((next % 360) + 360) % 360 * (next < 0 ? -1 : 1);
+        });
     };
     
     const rotateRight = () => {
         setIsAutoRotating(false);
-        setRotationDegree(prev => (prev === null ? 45 : prev + 45));
+        setRotationDegree(prev => {
+            const next = (prev === null ? 45 : prev + 45);
+            return ((next % 360) + 360) % 360;
+        });
     };
     
     // Funkcja do resetowania rotacji i włączenia automatycznej animacji
     const resetRotation = () => {
-        setRotationDegree(null);
+    setRotationDegree(null);
         setIsAutoRotating(true);
     };
 
@@ -63,7 +73,19 @@ const RotatingGallery: React.FC<RotatingGalleryProps> = ({ t }) => {
                                             onMouseLeave={() => { /* keep currentIndex until user hovers another */ }}
                                         >
                                             <div className="card-frame">
-                                                <img src={mascot.img} alt={mascot.alt} className={"card-media" + (isActive ? ' brightness-100 opacity-100' : ' brightness-90')} loading="lazy" />
+                                                {imgError[index] ? (
+                                                    <div className="card-fallback">
+                                                        <div className="fallback-inner">{mascot.name}</div>
+                                                    </div>
+                                                ) : (
+                                                    <img
+                                                        src={mascot.img}
+                                                        alt={mascot.alt}
+                                                        className={"card-media" + (isActive ? ' brightness-100 opacity-100' : ' brightness-90')}
+                                                        loading="lazy"
+                                                        onError={() => setImgError(prev => ({ ...prev, [index]: true }))}
+                                                    />
+                                                )}
                                             </div>
                                             <div className="card-info">
                                                 <div className="flex-1"></div>
@@ -224,7 +246,8 @@ const RotatingGallery: React.FC<RotatingGalleryProps> = ({ t }) => {
                 
                 /* Auto rotation class */
                 .gallery-box.auto-rotate {
-                    animation: animate-rotation 30s linear infinite;
+                    /* slower rotation for gentler motion */
+                    animation: animate-rotation 90s linear infinite;
                 }
                 
                 /* --- Pause animation on hover --- */
@@ -360,12 +383,13 @@ const RotatingGallery: React.FC<RotatingGalleryProps> = ({ t }) => {
                     flex-direction: column;
                     justify-content: flex-end;
                     padding: 1.2rem;
-                    background: linear-gradient(to top, rgba(0,0,0,0.95) 40%, rgba(0,0,0,0.7) 70%, transparent 100%);
+                    /* Bottom-only gradient to avoid full-card dark overlay */
+                    background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.25) 40%, rgba(0,0,0,0) 100%);
                     color: white;
                     transform: translateZ(30px);
                     transition: transform 0.5s ease;
                     z-index: 10;
-                    height: 100%;
+                    max-height: 40%; /* limit height so it doesn't cover whole card */
                     overflow: hidden;
                 }
                 
@@ -406,6 +430,22 @@ const RotatingGallery: React.FC<RotatingGalleryProps> = ({ t }) => {
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: nowrap;
+                }
+                /* Fallback placeholder for images that fail to load */
+                .card-fallback {
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: linear-gradient(135deg, #2b2b2b 0%, #1f1f1f 100%);
+                    color: #fff;
+                    font-weight: 700;
+                    text-align: center;
+                    padding: 1rem;
+                }
+                .card-fallback .fallback-inner {
+                    padding: 1rem;
                 }
                 
                 @media (min-width: 768px) {

@@ -19,20 +19,20 @@ export const PRODUCTS: Product[] = [
       '/images/Opblaasbare feesttent met accessoires (5).jpg',
       '/images/Opblaasbare feesttent met accessoires (6).jpg',
       '/images/Opblaasbare feesttent met accessoires (7).jpg',
-      '/images/partini-tentini.jpg.jpg',
-      '/images/jblini-trututini.jpg.jpg',
+  '/images/partini-tentini.jpg',
+  '/images/jblini-trututini.jpg',
     ]
   },
   {
     id:'cotton', 
     name:'Zelfbediening suikerspinmachine', 
-    img:'/images/suikerspini-gangusinii.jpg.jpg', 
+  img:'/images/suikerspini-gangusinii.jpg', 
     price:100, 
     sale:false, 
     product:'Suikerspin Gangusini',
     description: 'Słodka atrakcja dla małych i dużych! Nasza maszyna do waty cukrowej jest prosta w obsłudze i zawsze wywołuje uśmiech. Dostarczymy wszystko, czego potrzebujesz, by kręcić puszyste chmurki szczęścia.',
     gallery: [
-      '/images/suikerspini-gangusinii.jpg.jpg',
+  '/images/suikerspini-gangusinii.jpg',
     ]
   },
   {
@@ -45,7 +45,7 @@ export const PRODUCTS: Product[] = [
     description: 'Zapach świeżego popcornu to zapach dobrej zabawy! Nasz profesjonalny wózek do popcornu nada Twojej imprezie kinowego klimatu i zaspokoi apetyt każdego gościa.',
     gallery: [
       '/images/POPCORNMACHINE.jpg',
-      '/images/popcornini-boefini.jpg.jpg',
+  '/images/popcornini-boefini.jpg',
     ]
   },
   {
@@ -58,7 +58,7 @@ export const PRODUCTS: Product[] = [
     description: 'Gotowi na piankowe szaleństwo? Nasza wytwornica piany to hit każdej letniej imprezy. Bezpieczna dla dzieci, gwarantuje godziny świetnej zabawy i ochłody.',
     gallery: [
       '/images/Schuimparty-machine.jpg',
-      '/images/champanini-schuimni.jpg.jpg',
+  '/images/champanini-schuimni.jpg',
     ]
   },
   {
@@ -71,7 +71,7 @@ export const PRODUCTS: Product[] = [
     description: 'Uchwyć najlepsze momenty! Nasza fotobudka z zabawnymi rekwizytami to świetny sposób na integrację gości i stworzenie pamiątki na lata. Zdjęcia drukowane na miejscu!',
     gallery: [
       '/images/Fotoshoot op evenement.jpg',
-      '/images/foto-bossini-clickolini.jpg.jpg',
+  '/images/foto-bossini-clickolini.jpg',
     ]
   },
   {
@@ -110,7 +110,7 @@ export const PRODUCTS: Product[] = [
     gallery: [
       '/images/Springkussen met glijbaan.jpg',
       '/images/Springkussen met glijbaan (2).jpg',
-      '/images/clownini-blaasinii.jpg.jpg',
+  '/images/clownini-blaasinii.jpg',
     ]
   },
   {
@@ -126,7 +126,7 @@ export const PRODUCTS: Product[] = [
       '/images/Opblaasbare krokodil waterglijbaan (2).jpg',
       '/images/Opblaasbare krokodil waterglijbaan (3).jpg',
       '/images/Opblaasbare krokodil waterglijbaan.png',
-      '/images/krokodilo-glijbaanino.jpg.jpg',
+  '/images/krokodilo-glijbaanino.jpg',
     ]
   },
   {
@@ -149,7 +149,7 @@ export const PACKAGES: Package[] = [
         name: 'Standaardpakket',
         price: 275,
         priceOld: 400,
-        img: '/images/partini-tentini.jpg.jpg',
+  img: '/images/partini-tentini.jpg',
         popular: false,
         name_pl: 'Standaardpakket',
         name_nl: 'Standaardpakket',
@@ -163,7 +163,7 @@ export const PACKAGES: Package[] = [
         name: 'Uitgebreid Pakket',
         price: 400,
         priceOld: 600,
-        img: '/images/clownini-blaasinii.jpg.jpg',
+  img: '/images/clownini-blaasinii.jpg',
         popular: true,
         name_pl: 'Uitgebreid Pakket',
         name_nl: 'Uitgebreid Pakket',
