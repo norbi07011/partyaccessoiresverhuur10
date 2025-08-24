@@ -26,3 +26,52 @@
   background-repeat: no-repeat !important;
   background-position: center !important;
 }
+
+/* Ensure both generic cards and mascot cards receive the same media handling */
+.card, .mascot-card {
+  position: relative;
+  overflow: visible;
+}
+
+/* overlay to dim non-active cards; variable controls amount */
+.card::after, .mascot-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: rgba(0,0,0,var(--card-dim,0.35));
+  border-radius: inherit;
+  transition: background 240ms ease;
+}
+
+/* active card should be much less dimmed */
+.card.is-active, .mascot-card.is-active {
+  --card-dim: 0.05;
+}
+
+/* Non-active cards get a mild image darkening (in addition to overlay) to emphasize active */
+.card:not(.is-active) .card-media,
+.mascot-card:not(.is-active) .card-media {
+  filter: brightness(0.78);
+}
+
+/* Keep active card media free of extra filters */
+.card.is-active .card-media,
+.mascot-card.is-active .card-media {
+  filter: none !important;
+}
+
+/* Mobile-specific adjustments to avoid cropping and improve layout */
+@media (max-width: 768px) {
+  .card {
+    width: min(72vw, 320px);
+  }
+  .card-frame {
+    aspect-ratio: 2 / 3;
+    padding: clamp(6px, 2vw, 14px);
+  }
+  /* enforce contain on mobile to avoid any accidental overrides */
+  .card-media {
+    object-fit: contain !important;
+  }
+}
