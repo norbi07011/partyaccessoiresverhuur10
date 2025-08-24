@@ -81,23 +81,16 @@ const RotatingGallery: React.FC<RotatingGalleryProps> = ({ t }) => {
                                                     <img
                                                         src={mascot.img}
                                                         alt={mascot.alt}
-                                                        className={"card-media" + (isActive ? ' brightness-100 opacity-100' : ' brightness-90')}
+                                                        className="card-media"
                                                         loading="lazy"
                                                         onError={() => setImgError(prev => ({ ...prev, [index]: true }))}
                                                     />
                                                 )}
                                             </div>
-                                            <div className="card-info">
-                                                <div className="flex-1"></div>
-                                                <div>
-                                                    <h3 className="card-title">{mascot.name.split(' ').map((word, i) => (
-                                                        <React.Fragment key={i}>
-                                                            {word}
-                                                            {i < mascot.name.split(' ').length - 1 && <br />}
-                                                        </React.Fragment>
-                                                    ))}</h3>
-                                                    <p className="card-subtitle">{mascot.subtitle}</p>
-                                                </div>
+                                            {/* Footer overlay with title and subtitle placed at bottom of card */}
+                                            <div className="mascot-card__footer-overlay">
+                                                <h3 className="mascot-card__title">{mascot.name}</h3>
+                                                <p className="mascot-card__subtitle">{mascot.subtitle}</p>
                                             </div>
                                         </div>
                                     </span>
@@ -378,19 +371,36 @@ const RotatingGallery: React.FC<RotatingGalleryProps> = ({ t }) => {
                     transform: scale(1.05);
                 }
 
-                .card-info {
+                /* old .card-info removed; new footer overlay placed at bottom */
+                .mascot-card__footer-overlay {
+                    position: absolute;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    z-index: 10;
+                    padding: 0.6rem 0.7rem;
                     display: flex;
                     flex-direction: column;
-                    justify-content: flex-end;
-                    padding: 1.2rem;
-                    /* Bottom-only gradient to avoid full-card dark overlay */
-                    background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.25) 40%, rgba(0,0,0,0) 100%);
-                    color: white;
-                    transform: translateZ(30px);
-                    transition: transform 0.5s ease;
-                    z-index: 10;
-                    max-height: 40%; /* limit height so it doesn't cover whole card */
+                    align-items: center;
+                    justify-content: center;
+                    background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.35) 20%, rgba(0,0,0,0) 40%);
+                    border-bottom-left-radius: 12px;
+                    border-bottom-right-radius: 12px;
                     overflow: hidden;
+                    text-align: center;
+                }
+                .mascot-card__title {
+                    font-weight: 800;
+                    color: #ffffff;
+                    font-size: 1.05rem;
+                    line-height: 1.05;
+                    margin: 0;
+                }
+                .mascot-card__subtitle {
+                    margin-top: 0.25rem;
+                    font-size: 0.825rem;
+                    color: rgba(255,255,255,0.9);
+                    margin: 0;
                 }
                 
                 /* Lift card info on hover for 3D effect */

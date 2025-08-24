@@ -35,11 +35,12 @@
 
 /* overlay to dim cards; --card-dim controls amount. Default left at 0.35 per spec */
 .card::after, .mascot-card::after {
+  /* keep pseudo-element but make transparent to avoid double darkening; footer overlay handles contrast */
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: rgba(0,0,0,var(--card-dim,0.35));
+  background: rgba(0,0,0,0);
   border-radius: inherit;
   transition: background 240ms ease;
 }
@@ -54,7 +55,7 @@
 .card:not(.is-active) img,
 .mascot-card:not(.is-active) img {
   /* Keep a subtle darkening for non-active cards */
-  filter: brightness(0.85);
+  filter: none; /* no brightness filter; footer overlay provides contrast */
 }
 
 /* Keep active card media free of extra filters */
