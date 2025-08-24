@@ -34,7 +34,9 @@ const RotatingGallery: React.FC<RotatingGalleryProps> = ({ t }) => {
         <>
             <section id="mascots" className="gallery-section">
                 <div className="container mx-auto px-4 flex flex-col items-center">
-                    <h2 className="logo-font text-3xl font-bold text-center mb-16">{t('mascots.title')}</h2>
+                    <div className="mascot-title-container">
+                        <h2 className="logo-font text-4xl md:text-5xl font-bold text-center mb-16 relative z-20 mascot-title">{t('mascots.title')}</h2>
+                    </div>
                     <div className="gallery-controls">
                         <button 
                             className="gallery-control-btn left" 
@@ -98,9 +100,32 @@ const RotatingGallery: React.FC<RotatingGalleryProps> = ({ t }) => {
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    min-height: 80vh;
-                    padding: 4rem 0;
+                    /* reduced height so cards have more room and aren't cropped */
+                    min-height: 100vh;
+                    padding: 5rem 0 6rem;
                     overflow: hidden;
+                    margin-top: 1rem;
+                    position: relative;
+                    transform-style: preserve-3d;
+                    perspective: 3000px;
+                }
+                
+                /* --- Title container --- */
+                .mascot-title-container {
+                    width: 100%;
+                    position: relative;
+                    padding: 1rem 0;
+                    margin-bottom: 2rem;
+                }
+                
+                .mascot-title {
+                    text-shadow: 0 0 20px rgba(255, 0, 255, 0.7), 
+                                 0 0 30px rgba(158, 0, 255, 0.7),
+                                 0 0 40px rgba(0, 229, 255, 0.5);
+                    position: relative;
+                    z-index: 30; /* Ensure title is always on top */
+                    padding: 1rem;
+                    transform: translateZ(50px);
                 }
 
                 /* --- Gallery Controls Container --- */
@@ -111,6 +136,10 @@ const RotatingGallery: React.FC<RotatingGalleryProps> = ({ t }) => {
                     justify-content: center;
                     width: 100%;
                     padding: 0 20px;
+                    max-width: 90vw;
+                    margin: 0 auto;
+                    /* allow cards to extend outside the control container so they won't be vertically clipped */
+                    overflow: visible;
                 }
                 
                 /* --- Navigation Buttons --- */
@@ -170,10 +199,14 @@ const RotatingGallery: React.FC<RotatingGalleryProps> = ({ t }) => {
                 /* --- Main rotating container --- */
                 .gallery-box {
                     position: relative;
-                    width: 280px;
-                    height: 400px;
+                    /* slightly larger height to give room for 3D perspective without clipping */
+                    width: 180px;
+                    height: 360px;
                     transform-style: preserve-3d;
                     transition: transform 0.5s ease;
+                    margin-top: 32px;
+                    perspective: 3000px;
+                    overflow: visible; /* ensure children can render outside box bounds */
                 }
                 
                 /* Auto rotation class */
@@ -188,14 +221,24 @@ const RotatingGallery: React.FC<RotatingGalleryProps> = ({ t }) => {
 
                 @media (min-width: 768px) {
                     .gallery-box {
-                        width: 320px;
-                        height: 450px;
+                        width: 220px;
+                        height: 380px;
+                        margin-top: 60px;
+                        perspective: 3500px;
+                    }
+                }
+                
+                @media (min-width: 1024px) {
+                    .gallery-box {
+                        width: 240px;
+                        height: 420px;
+                        perspective: 4000px;
                     }
                 }
 
                 @keyframes animate-rotation {
-                    0%   { transform: perspective(1500px) rotateY(0deg); }
-                    100% { transform: perspective(1500px) rotateY(360deg); }
+                    0%   { transform: perspective(3000px) rotateY(0deg); }
+                    100% { transform: perspective(3000px) rotateY(360deg); }
                 }
 
                 /* --- Individual rotating card holders (spans) --- */
@@ -207,25 +250,40 @@ const RotatingGallery: React.FC<RotatingGalleryProps> = ({ t }) => {
                     height: 100%;
                     transform-origin: center;
                     transform-style: preserve-3d;
-                    transform: rotateY(calc(var(--i) * 45deg)) translateZ(400px);
+                    /* reduced depth so less of the image gets clipped */
+                    transform: rotateY(calc(var(--i) * 45deg)) translateZ(480px);
                     transition: transform 0.5s ease-in-out;
                 }
                 
-                @media (max-width: 767px) {
-                   .gallery-box span {
-                     transform: rotateY(calc(var(--i) * 45deg)) translateZ(220px);
-                   }
-                }
+                                                @media (max-width: 767px) {
+                                                     .gallery-box span {
+                                                         transform: rotateY(calc(var(--i) * 45deg)) translateZ(340px);
+                                                     }
+                                                }
+                
+                                                @media (max-width: 480px) {
+                                                     .gallery-box span {
+                                                         transform: rotateY(calc(var(--i) * 45deg)) translateZ(300px);
+                                                     }
+                                                }
                 
                 /* Zoom in the focused card on hover */
                 .gallery-box span:hover {
-                    transform: rotateY(calc(var(--i) * 45deg)) translateZ(400px) scale(1.1);
+                    /* smaller hover zoom to avoid clipping */
+                    transform: rotateY(calc(var(--i) * 45deg)) translateZ(480px) scale(1.03);
                 }
-                 @media (max-width: 767px) {
-                   .gallery-box span:hover {
-                     transform: rotateY(calc(var(--i) * 45deg)) translateZ(220px) scale(1.15);
-                   }
-                }
+                
+                                @media (max-width: 767px) {
+                                                         .gallery-box span:hover {
+                                                             transform: rotateY(calc(var(--i) * 45deg)) translateZ(340px) scale(1.05);
+                                                         }
+                                }
+                
+                                @media (max-width: 480px) {
+                                                         .gallery-box span:hover {
+                                                             transform: rotateY(calc(var(--i) * 45deg)) translateZ(300px) scale(1.05);
+                                                         }
+                                }
 
                 /* --- The 3D Card itself --- */
                 .mascot-card {
@@ -237,9 +295,12 @@ const RotatingGallery: React.FC<RotatingGalleryProps> = ({ t }) => {
                     border-radius: 16px;
                     overflow: hidden;
                     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-                    border: 1px solid var(--c-border);
+                    border: 2px solid var(--c-border);
                     transform-style: preserve-3d;
                     transition: transform 0.5s ease;
+                    max-width: 90%;
+                    left: 5%; /* Center the card with reduced width */
+                    transform-origin: center center;
                 }
                 
                 /* Tilt the card on hover */
@@ -261,6 +322,9 @@ const RotatingGallery: React.FC<RotatingGalleryProps> = ({ t }) => {
                     object-fit: cover;
                     border-radius: 16px;
                     transition: transform 0.5s ease;
+                    height: 100%;
+                    width: 100%;
+                    transform: translateZ(0);
                 }
                 
                 /* Zoom effect on hover */
@@ -272,13 +336,14 @@ const RotatingGallery: React.FC<RotatingGalleryProps> = ({ t }) => {
                     display: flex;
                     flex-direction: column;
                     justify-content: flex-end;
-                    padding: 1.5rem;
-                    background: linear-gradient(to top, rgba(0,0,0,0.95) 30%, rgba(0,0,0,0.7) 60%, transparent 90%);
+                    padding: 1.2rem;
+                    background: linear-gradient(to top, rgba(0,0,0,0.95) 40%, rgba(0,0,0,0.7) 70%, transparent 100%);
                     color: white;
                     transform: translateZ(30px);
                     transition: transform 0.5s ease;
                     z-index: 10;
                     height: 100%;
+                    overflow: hidden;
                 }
                 
                 /* Lift card info on hover for 3D effect */
@@ -288,23 +353,42 @@ const RotatingGallery: React.FC<RotatingGalleryProps> = ({ t }) => {
                 
                 .card-title {
                     font-family: 'Cinzel', serif;
-                    font-size: 1.4rem;
+                    font-size: 1.2rem;
                     font-weight: 800;
                     text-shadow: 0 2px 5px rgba(0,0,0,0.8);
-                    margin: 0 0 0.5rem 0;
+                    margin: 0 0 0.3rem 0;
                     line-height: 1.2;
                     text-align: center;
                     word-break: break-word;
                     hyphens: auto;
+                    max-width: 100%;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+                
+                @media (min-width: 768px) {
+                    .card-title {
+                        font-size: 1.3rem;
+                    }
                 }
                 
                 .card-subtitle {
-                    font-size: 0.9rem;
+                    font-size: 0.8rem;
                     margin: 0;
                     color: rgba(255,255,255,0.9);
                     text-shadow: 0 1px 3px rgba(0,0,0,0.7);
                     text-align: center;
-                    padding-bottom: 0.5rem;
+                    padding-bottom: 0.3rem;
+                    max-width: 100%;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+                
+                @media (min-width: 768px) {
+                    .card-subtitle {
+                        font-size: 0.9rem;
+                    }
                 }
             `}</style>
         </>

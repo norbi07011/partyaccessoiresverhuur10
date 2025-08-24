@@ -30,11 +30,11 @@ const Reviews: React.FC<ReviewsProps> = ({ t }) => {
                                 </div>
                                 <p className="text-4xl font-black text-white">5,0 / 5</p>
                                 <p className="text-gray-400 mt-1 mb-6">Na podstawie opinii klientów</p>
-                                <a href="https://www.google.com/search?q=Party+Accessoires+Verhuur+reviews" target="_blank" rel="noopener noreferrer" className="btn-primary w-full max-w-xs mt-auto">
+                                <a href="https://www.google.com/search?rlz=1C1CHBF_enDE1159DE1160&q=Party%20accessoires%20verhuur%20Reviews&rflfq=1&num=20&stick=H4sIAAAAAAAAAONgkxIxNDI3s7QwNDUzMTW3MDC3NDUyNdzAyPiKUTEgsaikUiExOTm1uDg_syi1WKEstSijtLRIISi1LDO1vHgRK2E1ALv597VjAAAA&rldimm=12769815645780795251&tbm=lcl&hl=en&sa=X&ved=0CBYQ9fQKKABqFwoTCMDu9cunpI8DFQAAAAAdAAAAABAG&biw=1920&bih=945&dpr=1#lkt=LocalPoiReviews" target="_blank" rel="noopener noreferrer" className="btn-primary w-full max-w-xs mt-auto">
                                     Zobacz wszystkie opinie
                                 </a>
                                 <p className="text-xs text-gray-500 mt-3">
-                                    Jeśli widżet się nie załaduje, <a href="#" className="text-cyan-400 hover:underline">zobacz opinie tutaj</a>.
+                                    Jeśli widżet się nie załaduje, <a href="https://www.google.com/search?rlz=1C1CHBF_enDE1159DE1160&q=Party%20accessoires%20verhuur%20Reviews&rflfq=1&num=20&stick=H4sIAAAAAAAAAONgkxIxNDI3s7QwNDUzMTW3MDC3NDUyNdzAyPiKUTEgsaikUiExOTm1uDg_syi1WKEstSijtLRIISi1LDO1vHgRK2E1ALv597VjAAAA&rldimm=12769815645780795251&tbm=lcl&hl=en&sa=X&ved=0CBYQ9fQKKABqFwoTCMDu9cunpI8DFQAAAAAdAAAAABAG&biw=1920&bih=945&dpr=1#lkt=LocalPoiReviews" className="text-cyan-400 hover:underline" target="_blank" rel="noopener noreferrer">zobacz opinie tutaj</a>.
                                 </p>
                             </div>
                         </div>
