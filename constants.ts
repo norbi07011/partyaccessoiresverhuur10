@@ -9,7 +9,7 @@ export const PRODUCTS: Product[] = [
     price:275, 
     sale:true, 
     product:'Namiot LED',
-    description: 'Zmień swój ogród w epickie centrum imprezy! Nasz namiot LED z oświetleniem, nagłośnieniem i wytwornicą dymu to gwarancja niezapomnianych wrażeń. Idealny na urodziny, rocznice, garden party i rodzinne spotkania.',
+    description: 'Zmień swój ogród w epickie centrum imprezy! Nasz namiot LED z oświetleniem, nagłośnieniem i wytwornicą dymu to gwarancja niezapomnianych wrażeń. Idealny na urodziny, rocznice, wesela i inne okazje.',
     gallery: [
       '/images/IMPREZOWE NAMIOT LED,.jpg',
       '/images/Opblaasbare feesttent met accessoires.jpg',
@@ -19,20 +19,20 @@ export const PRODUCTS: Product[] = [
       '/images/Opblaasbare feesttent met accessoires (5).jpg',
       '/images/Opblaasbare feesttent met accessoires (6).jpg',
       '/images/Opblaasbare feesttent met accessoires (7).jpg',
-  '/images/partini-tentini.jpg',
-  '/images/jblini-trututini.jpg',
+      '/images/partini-tentini.jpg',
+      '/images/jblini-trututini.jpg',
     ]
   },
   {
     id:'cotton', 
     name:'Zelfbediening suikerspinmachine', 
-  img:'/images/suikerspini-gangusinii.jpg', 
+    img:'/images/suikerspini-gangusinii.jpg', 
     price:100, 
     sale:false, 
     product:'Suikerspin Gangusini',
-    description: 'Słodka atrakcja dla małych i dużych! Nasza maszyna do waty cukrowej jest prosta w obsłudze i zawsze wywołuje uśmiech. Dostarczymy wszystko, czego potrzebujesz, by kręcić puszyste chmurki szczęścia.',
+    description: 'Słodka atrakcja dla małych i dużych! Nasza maszyna do waty cukrowej jest prosta w obsłudze i zawsze wywołuje uśmiech. Dostarczymy wszystko, czego potrzebujesz, by kręcić kolorowe chmury słodkości na Twojej imprezie.',
     gallery: [
-  '/images/suikerspini-gangusinii.jpg',
+      '/images/suikerspini-gangusinii.jpg',
     ]
   },
   {
@@ -44,8 +44,8 @@ export const PRODUCTS: Product[] = [
     product:'Popcorni Boefini',
     description: 'Zapach świeżego popcornu to zapach dobrej zabawy! Nasz profesjonalny wózek do popcornu nada Twojej imprezie kinowego klimatu i zaspokoi apetyt każdego gościa.',
     gallery: [
-      '/images/POPCORNMACHINE.jpg',
-  '/images/popcornini-boefini.jpg',
+      '/images/POPCORNMACHINE.jpg', 
+      '/images/popcornini-boefini.jpg',
     ]
   },
   {
@@ -57,8 +57,8 @@ export const PRODUCTS: Product[] = [
     product:'Piana party',
     description: 'Gotowi na piankowe szaleństwo? Nasza wytwornica piany to hit każdej letniej imprezy. Bezpieczna dla dzieci, gwarantuje godziny świetnej zabawy i ochłody.',
     gallery: [
-      '/images/Schuimparty-machine.jpg',
-  '/images/champanini-schuimni.jpg',
+      '/images/Schuimparty-machine.jpg', 
+      '/images/champanini-schuimni.jpg',
     ]
   },
   {
@@ -70,8 +70,8 @@ export const PRODUCTS: Product[] = [
     product:'Fotobudka',
     description: 'Uchwyć najlepsze momenty! Nasza fotobudka z zabawnymi rekwizytami to świetny sposób na integrację gości i stworzenie pamiątki na lata. Zdjęcia drukowane na miejscu!',
     gallery: [
-      '/images/Fotoshoot op evenement.jpg',
-  '/images/foto-bossini-clickolini.jpg',
+      '/images/Fotoshoot op evenement.jpg', 
+      '/images/foto-bossini-clickolini.jpg',
     ]
   },
   {
@@ -93,7 +93,7 @@ export const PRODUCTS: Product[] = [
     price:50, 
     sale:false, 
     product:'Bar + Lodówka',
-    description: 'Zapewnij swoim gościom idealnie schłodzone napoje! Nasz stylowy bar z chłodziarką do beczek to profesjonalne rozwiązanie, które podniesie rangę każdej imprezy. (Butla CO₂ nie jest wliczona w cenę).',
+    description: 'Zapewnij swoim gościom idealnie schłodzone napoje! Nasz stylowy bar z chłodziarką do beczek to profesjonalne rozwiązanie, które podniesie rangę każdej imprezy. (Butla CO₂ nie wchodzi w cenę)',
     gallery: [
       '/images/KLEINE BAR MET BIERFUSTKOELER.jpg',
     ]
@@ -110,7 +110,7 @@ export const PRODUCTS: Product[] = [
     gallery: [
       '/images/Springkussen met glijbaan.jpg', 
       '/images/Springkussen met glijbaan (2).jpg',
-  '/images/clownini-blaasinii.jpg',
+      '/images/clownini-blaasinii.jpg',
     ]
   },
   {
@@ -126,7 +126,7 @@ export const PRODUCTS: Product[] = [
       '/images/Opblaasbare krokodil waterglijbaan (2).jpg',
       '/images/Opblaasbare krokodil waterglijbaan (3).jpg',
       '/images/Opblaasbare krokodil waterglijbaan.png',
-  '/images/krokodilo-glijbaanino.jpg',
+      '/images/krokodilo-glijbaanino.jpg',
     ]
   },
   {
@@ -153,7 +153,7 @@ export const PACKAGES: Package[] = [
         popular: false,
         name_pl: 'Standaardpakket',
         name_nl: 'Standaardpakket',
-        description_pl: 'Wszystko, czego potrzebujesz, by rozkręcić imprezę: namiot LED, JBL speaker + karaoke, oświetlenie, dym i dwa stoły barowe. Idealny start, który tworzy klimat profesjonalnej imprezy.',
+        description_pl: 'Wszystko, czego potrzebujesz, by rozkręcić imprezę: namiot LED, JBL speaker + karaoke, oświetlenie, dym i dwa stoły barowe. Idealny start, który tworzy klimat profesjonalnej zabawy.',
         description_nl: 'Alles wat je nodig hebt voor een topfeest: LED tent, JBL speaker + karaoke, verlichting, rookmachine en twee barktafels. De perfecte basis voor een professionele party.',
         features_pl: ['Namiot LED', 'JBL Speaker + Karaoke', 'Oświetlenie & Dym', 'dwa stoły barowe'],
         features_nl: ['LED Tent', 'JBL Speaker + Karaoke', 'Verlichting & Rookmachine', 'twee barktafels'],
