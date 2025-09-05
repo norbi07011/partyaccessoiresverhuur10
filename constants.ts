@@ -149,7 +149,7 @@ export const PACKAGES: Package[] = [
         name: 'Standaardpakket',
         price: 275,
         priceOld: 400,
-  img: '/images/partini-tentini.jpg',
+        img: '/images/partini-tentini.jpg',
         popular: false,
         name_pl: 'Standaardpakket',
         name_nl: 'Standaardpakket',
