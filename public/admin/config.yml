@@ -1,0 +1,78 @@
+local_backend: true
+
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: "products"
+    label: "Produkty"
+    folder: "content/products"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Price", name: "price", widget: "number" }
+      - { label: "Image", name: "image", widget: "image" }
+      - { label: "Video URL", name: "videoUrl", widget: "string", required: false }
+      - { label: "Video Poster", name: "videoPoster", widget: "image", required: false }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+# Global settings / metadata
+  - name: "site_metadata"
+    label: "Metadata"
+    files:
+      - file: "metadata.json"
+        label: "Site Metadata"
+        name: "metadata"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Description", name: "description", widget: "text" }
+          - label: "Theme"
+            name: "theme"
+            widget: "object"
+            fields:
+              - { label: "Neon Pink", name: "neonPink", widget: "string", default: "#ff00ff" }
+              - { label: "Neon Purple", name: "neonPurple", widget: "string", default: "#9e00ff" }
+              - { label: "Neon Cyan", name: "neonCyan", widget: "string", default: "#00e5ff" }
+              - label: "Neon Intensity"
+                name: "neonIntensity"
+                widget: "number"
+                default: 1
+                min: 0.5
+                max: 2
+                step: 0.1
+              - label: "Flow Speed"
+                name: "flowSpeed"
+                widget: "number"
+                default: 1
+                min: 0
+                max: 5
+                step: 0.1
+          - label: "Lottie"
+            name: "lottie"
+            widget: "object"
+            fields:
+              - { label: "Enabled", name: "enabled", widget: "boolean", default: false }
+              - { label: "URL", name: "url", widget: "string", required: false }
+          - label: "Media"
+            name: "media"
+            widget: "object"
+            fields:
+              - label: "Image CDN"
+                name: "imageCdn"
+                widget: "select"
+                options:
+                  - { label: "Cloudinary", value: "cloudinary" }
+                  - { label: "Local", value: "local" }
+                default: "cloudinary"
+              - label: "Video CDN"
+                name: "videoCdn"
+                widget: "select"
+                options:
+                  - { label: "Cloudinary", value: "cloudinary" }
+                  - { label: "Local", value: "local" }
+                default: "cloudinary"

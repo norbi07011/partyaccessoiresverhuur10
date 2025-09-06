@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Party Accessoires Verhuur</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <style>
+      :root {
+        --c-neon-pink: #ff00ff;
+        --c-neon-purple: #9e00ff;
+        --c-neon-cyan: #00e5ff;
+        --neon-intensity: 1;
+        --flow-speed: 1;
+        --neon-alpha-outer: 0.2;
+        --neon-alpha-inner: 0.15;
+        --c-dark-bg: #05020f;
+        --c-panel-bg: rgba(12, 5, 29, 0.6);
+        --c-border: rgba(158, 0, 255, var(--neon-alpha-outer));
+      }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--c-dark-bg);
+        color: #e9efff;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      /* --- Neon Energy Background --- */
+      .neon-energy-bg {
+        position: relative;
+        overflow: hidden;
+      }
+      .neon-energy-bg::before { /* Base nebulae */
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: radial-gradient(1000px 600px at -10% -10%, rgba(158, 0, 255, 0.25) 0%, transparent 50%),
+                          radial-gradient(800px 500px at 110% 40%, rgba(0, 229, 255, 0.2) 0%, transparent 55%);
+      }
+      
+      /* Additional gradient for mobile devices */
+      @media (max-width: 767px) {
+        .neon-energy-bg::before {
+          background-image: radial-gradient(800px 600px at 50% 30%, rgba(158, 0, 255, 0.25) 0%, transparent 70%),
+                            radial-gradient(600px 400px at 50% 70%, rgba(0, 229, 255, 0.2) 0%, transparent 70%);
+        }
+      }
+      .neon-energy-bg::after { /* Animated flowing waves */
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+          115deg,
+          transparent 40%,
+          rgba(255, 0, 255, 0.15) 48%,
+          rgba(0, 229, 255, 0.1) 52%,
+          transparent 60%
+        );
+        animation: flow-animation calc(15s / max(var(--flow-speed), 0.01)) linear infinite;
+        z-index: 0;
+      }
+      
+      /* Enhanced flow animation for mobile */
+      @media (max-width: 767px) {
+        .neon-energy-bg::after {
+          background: linear-gradient(
+            115deg,
+            transparent 35%,
+            rgba(255, 0, 255, 0.2) 45%,
+            rgba(0, 229, 255, 0.15) 55%,
+            transparent 65%
+          );
+        }
+      }
+      main {
+        position: relative;
+        z-index: 2;
+      }
+
+      @keyframes flow-animation {
+        0% { transform: rotate(0deg) translate(0, 0); }
+        100% { transform: rotate(360deg) translate(0, 0); }
+      }
+
+      /* --- Neon Typography --- */
+      h1, h2, h3, .logo-font {
+        font-family: 'Cinzel', serif;
+        text-shadow: 0 0 4px rgba(255,255,255,0.4), 
+                     0 0 10px var(--c-neon-pink), 
+                     0 0 20px var(--c-neon-pink);
+      }
+      
+      a {
+        transition: color 0.3s, text-shadow 0.3s;
+      }
+      a:hover, a.text-\[\#67e8f9\]:hover {
+        color: #fff;
+        text-shadow: 0 0 5px var(--c-neon-cyan), 0 0 10px var(--c-neon-cyan);
+      }
+      
+      /* --- Neon Panels & Borders --- */
+      .neon-panel {
+        background-color: var(--c-panel-bg);
+        border: 1px solid var(--c-border);
+  box-shadow: 0 0 20px rgba(158, 0, 255, var(--neon-alpha-outer)), inset 0 0 10px rgba(158, 0, 255, var(--neon-alpha-inner));
+        -webkit-backdrop-filter: blur(8px);
+        backdrop-filter: blur(8px);
+        border-radius: 18px;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+      .neon-panel:hover {
+        transform: translateY(-4px);
+  box-shadow: 0 8px 40px rgba(158, 0, 255, var(--neon-alpha-outer)), inset 0 0 15px rgba(158, 0, 255, var(--neon-alpha-inner));
+      }
+
+      /* --- Global Sparkle Button Styles --- */
+      .btn-primary, .btn-ghost, .btn-ghost-nav, .sticky-btn, .sticky-btn-primary, 
+      a.btn-primary, a.btn-ghost, a.btn-ghost-nav, a.sticky-btn, a.sticky-btn-primary {
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        z-index: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        letter-spacing: .3px;
+        padding: 12px 24px;
+        border-radius: 14px;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        text-decoration: none;
+      }
+
+      .btn-primary:active, .btn-ghost:active, .btn-ghost-nav:active, .sticky-btn:active, .sticky-btn-primary:active {
+        transform: scale(0.96);
+        transition-duration: 0.1s;
+      }
+      .btn-primary:hover, .btn-ghost:hover, .btn-ghost-nav:hover, .sticky-btn:hover, .sticky-btn-primary:hover {
+        transform: translateY(-2px);
+      }
+
+      .btn-primary::before, .btn-ghost::before, .btn-ghost-nav::before, .sticky-btn::before, .sticky-btn-primary::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 2.5rem;
+        height: 2.5rem;
+        background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 0L11.4804 8.51961L20 10L11.4804 11.4804L10 20L8.51961 11.4804L0 10L8.51961 8.51961L10 0Z' fill='white'/%3E%3C/svg%3E");
+        background-size: contain;
+        background-repeat: no-repeat;
+        opacity: 0;
+        transform: translate(-50%, -50%) rotate(0deg) scale(0.5);
+        pointer-events: none;
+        z-index: 2;
+      }
+
+      .btn-primary:hover::before, .btn-ghost:hover::before, .btn-ghost-nav:hover::before, .sticky-btn:hover::before, .sticky-btn-primary:hover::before {
+        animation: sparkle-anim 0.7s forwards;
+      }
+
+      @keyframes sparkle-anim {
+        0% { opacity: 0; transform: translate(-50%, -50%) rotate(-90deg) scale(0.5); }
+        30% { opacity: 0.7; }
+        70% { opacity: 1; transform: translate(-50%, -50%) rotate(90deg) scale(1.2); }
+        100% { opacity: 0; transform: translate(-50%, -50%) rotate(180deg) scale(0.5); }
+      }
+
+      /* --- Primary Button Style --- */
+      .btn-primary, .sticky-btn-primary {
+        border: 1px solid transparent;
+        background: linear-gradient(135deg, var(--c-neon-purple) 0%, var(--c-neon-pink) 100%);
+        color: #fff;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 4px 25px rgba(158, 0, 255, var(--neon-alpha-outer));
+      }
+      .btn-primary:hover, .sticky-btn-primary:hover {
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 8px 40px rgba(255, 0, 255, 0.6);
+      }
+      .btn-primary[disabled] {
+        background: #555;
+        cursor: not-allowed;
+        box-shadow: none;
+        opacity: 0.6;
+      }
+      .btn-primary[disabled]:hover {
+        transform: none;
+      }
+      .btn-primary[disabled]::before {
+        display: none;
+      }
+
+      /* --- Ghost Button Style --- */
+      .btn-ghost, .sticky-btn, .btn-ghost-nav {
+        border: 1px solid var(--c-border);
+  background-color: rgba(158, 0, 255, var(--neon-alpha-inner));
+        color: #e2d4ff;
+        -webkit-backdrop-filter: blur(4px);
+        backdrop-filter: blur(4px);
+      }
+      .btn-ghost:hover, .sticky-btn:hover, .btn-ghost-nav:hover {
+  background-color: rgba(158, 0, 255, var(--neon-alpha-outer));
+        border-color: rgba(255, 0, 255, 0.5);
+        color: #fff;
+      }
+
+      /* --- Specialized Button Styles --- */
+      .btn-ghost-nav { padding: 10px 14px; }
+      .qty-btn { width:28px; height:28px; border-radius:8px; border:1px solid #4a3a7a; background:#1a1433; color:#a8bdff; font-weight:900; }
+      .qty-btn:hover { background: #2c2055; }
+      
+      /* --- Custom Scrollbar --- */
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--c-dark-bg);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--c-neon-purple);
+        border-radius: 10px;
+        border: 2px solid var(--c-dark-bg);
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--c-neon-pink);
+      }
+      
+      .input { 
+          background:#0b1329; 
+          color:#e8f1ff; 
+          border:1px solid #29345f; 
+          border-radius:10px; 
+          padding:10px; 
+          transition: border-color 0.3s, box-shadow 0.3s;
+      }
+      .input:focus {
+          outline: none;
+          border-color: var(--c-neon-cyan);
+          box-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+      }
+
+      /* --- Glow Frame for Footer --- */
+      @property --angle {
+        syntax: '<angle>';
+        initial-value: 0deg;
+        inherits: false;
+      }
+
+      @keyframes pa-border-spin {
+        to { --angle: 360deg; }
+      }
+
+      .pa-glow-frame {
+        position: relative;
+        padding: 3px;
+        border-radius: 20px;
+        z-index: 1;
+      }
+      
+      .pa-glow-frame::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        border-radius: inherit;
+        background: conic-gradient(from var(--angle), var(--c-neon-purple), var(--c-neon-cyan), var(--c-neon-purple));
+        animation: pa-border-spin 7s linear infinite;
+      }
+
+      .pa-glow-frame > div {
+        background: #0f172a;
+        border-radius: calc(20px - 3px);
+        box-shadow: inset 0 0 1px 1px rgba(255, 255, 255, 0.08); /* #ffffff14 */
+        position: relative;
+        z-index: 1;
+        overflow: hidden;
+        padding: 2rem;
+      }
+
+      .pa-glow-frame--small-padding > div {
+        padding: 1rem;
+      }
+
+      .pa-glow-frame--pill {
+        border-radius: 999px;
+      }
+      .pa-glow-frame--pill > div {
+        border-radius: 999px;
+        padding: 8px;
+        background: var(--c-panel-bg);
+      }
+
+      @supports not (background: conic-gradient(from 0deg, red, blue)) {
+        .pa-glow-frame::before {
+          background: linear-gradient(45deg, var(--c-neon-purple), var(--c-neon-cyan));
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .pa-glow-frame::before {
+          animation: none;
+        }
+      }
+
+      /* --- NEW: Glowing Frame for Panels --- */
+      .glowing-panel-container {
+        position: relative;
+        border-radius: 18px;
+        padding: 2px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        z-index: 1;
+      }
+      .glowing-panel-container::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        border-radius: inherit;
+        background: conic-gradient(from var(--angle), var(--c-neon-purple), var(--c-neon-cyan), var(--c-neon-purple));
+        animation: pa-border-spin 7s linear infinite;
+      }
+      .glowing-panel-container:hover {
+        transform: translateY(-4px);
+  box-shadow: 0 8px 40px rgba(158, 0, 255, var(--neon-alpha-outer));
+      }
+
+      .glowing-panel-container > .neon-panel {
+        transition: none !important;
+        transform: none !important;
+        border: none !important;
+  box-shadow: inset 0 0 10px rgba(158, 0, 255, var(--neon-alpha-inner)) !important;
+        border-radius: calc(18px - 2px);
+        width: 100%;
+      }
+      .glowing-panel-container > .neon-panel:hover {
+        transform: none !important;
+  box-shadow: inset 0 0 15px rgba(158, 0, 255, var(--neon-alpha-inner)) !important;
+      }
+  </style>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", user => {
+          if (!user) {
+            window.netlifyIdentity.on("login", () => {
+              document.location.href = "/admin/";
+            });
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
