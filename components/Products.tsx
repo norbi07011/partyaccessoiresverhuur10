@@ -24,11 +24,11 @@ const ProductCard: React.FC<{ product: Product; onImageClick: (product: Product)
         <article className={cardClasses}>
             <div
               onClick={() => onImageClick(product)}
-              className="relative w-full aspect-[4/3] bg-black rounded-xl overflow-hidden ring-1 ring-white/10 cursor-pointer group"
+              className="relative w-full aspect-[4/3] bg-[#18182a] rounded-xl overflow-hidden ring-1 ring-white/10 cursor-pointer group flex items-center justify-center"
             >
                 {product.sale && <span className="absolute right-2.5 top-2.5 bg-black/70 border border-[#ff00ff66] text-[#ffb0ff] px-2 py-1 rounded-full font-extrabold text-xs animate-pulse z-10">SALE</span>}
-                <img src={product.img} alt={product.name} className="absolute inset-0 w-full h-full object-contain transition-transform duration-300 group-hover:scale-105" />
-                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <img src={product.img} alt={product.name} className="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-105" style={{background: '#fff', borderRadius: '12px'}} />
+                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                     <span className="text-white font-bold text-lg" style={{textShadow: '0 0 10px #fff'}}>Zobacz galerię</span>
                 </div>
             </div>
@@ -80,6 +80,28 @@ const Products: React.FC<ProductsProps> = ({ t }) => {
         }
     };
 
+    // Wyświetlaj 1 na mobile, 2 na tablet, 3 na desktop
+    const getVisibleCount = () => {
+        if (typeof window !== 'undefined') {
+            if (window.innerWidth >= 1024) return 3;
+            if (window.innerWidth >= 640) return 2;
+        }
+        return 1;
+    };
+    const [visibleCount, setVisibleCount] = useState(getVisibleCount());
+    useEffect(() => {
+        const onResize = () => setVisibleCount(getVisibleCount());
+        window.addEventListener('resize', onResize);
+        return () => window.removeEventListener('resize', onResize);
+    }, []);
+
+    // Wylicz indeksy produktów do pokazania
+    const visibleProducts = [];
+    for (let i = -Math.floor((visibleCount-1)/2); i <= Math.floor(visibleCount/2); i++) {
+        let idx = (activeIndex + i + PRODUCTS.length) % PRODUCTS.length;
+        visibleProducts.push(PRODUCTS[idx]);
+    }
+
     return (
         <>
             <section id="products" className="relative py-16 overflow-hidden">
@@ -91,37 +113,28 @@ const Products: React.FC<ProductsProps> = ({ t }) => {
                 </div>
 
                 <div 
-                    className="coverflow-container"
+                    className="flex justify-center items-center gap-6 w-full px-2 md:px-0"
                     onTouchStart={handleTouchStart}
                     onTouchMove={handleTouchMove}
                     onTouchEnd={handleTouchEnd}
                 >
-                    <div className="coverflow-track">
-                        {PRODUCTS.map((p, index) => {
-                            const offset = index - activeIndex;
-                            const isFar = Math.abs(offset) > 2;
-                            
-                            const style: React.CSSProperties = {
-                                transform: `rotateY(${offset * 25}deg) scale(${1 - Math.abs(offset) * 0.1}) translateX(${offset * 20}%) translateZ(${Math.abs(offset) * -80}px)`,
-                                opacity: isFar ? 0 : (1 - Math.abs(offset) * 0.3),
-                                zIndex: PRODUCTS.length - Math.abs(offset),
-                                pointerEvents: offset === 0 ? 'auto' : 'all',
-                            };
-
-                            return (
-                                <div 
-                                    key={p.id}
-                                    className="coverflow-item"
-                                    style={style}
-                                    onClick={() => offset !== 0 && setActiveIndex(index)}
-                                >
-                                    <ProductCard product={p} onImageClick={setSelectedProduct} isActive={index === activeIndex} />
-                                </div>
-                            );
-                        })}
-                    </div>
+                    {visibleProducts.map((p, i) => {
+                        // Wylicz offset względem aktywnego
+                        const offset = (PRODUCTS.indexOf(p) - activeIndex + PRODUCTS.length) % PRODUCTS.length;
+                        const isActive = PRODUCTS.indexOf(p) === activeIndex;
+                        return (
+                            <div
+                                key={p.id}
+                                className={`transition-all duration-500 ${isActive ? 'scale-105 z-10' : 'scale-95 opacity-80'} w-full max-w-xs`}
+                                style={{ cursor: isActive ? 'default' : 'pointer' }}
+                                onClick={() => !isActive && setActiveIndex(PRODUCTS.indexOf(p))}
+                            >
+                                <ProductCard product={p} onImageClick={setSelectedProduct} isActive={isActive} />
+                            </div>
+                        );
+                    })}
                 </div>
-                
+
                 <div className="container mx-auto px-4 flex gap-2 justify-center mt-8">
                     <button onClick={goPrev} className="btn-ghost-nav !text-2xl">◀</button>
                     <button onClick={goNext} className="btn-ghost-nav !text-2xl">▶</button>
@@ -131,46 +144,6 @@ const Products: React.FC<ProductsProps> = ({ t }) => {
             {selectedProduct && (
                 <ProductGalleryModal product={selectedProduct} onClose={() => setSelectedProduct(null)} />
             )}
-
-            <style>{`
-                .coverflow-container {
-                    position: relative;
-                    width: 100%;
-                    height: 480px; 
-                    perspective: 1200px;
-                }
-                .coverflow-track {
-                    transform-style: preserve-3d;
-                    height: 100%;
-                }
-                .coverflow-item {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    margin: auto;
-                    width: 90%;
-                    max-width: 320px;
-                    height: 100%;
-                    transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.45s ease-out;
-                    cursor: pointer;
-                }
-                .coverflow-item:not([style*="pointer-events: auto;"]) {
-                     cursor: pointer;
-                }
-                .coverflow-item[style*="pointer-events: auto;"] {
-                     cursor: default;
-                }
-
-                 @media (min-width: 768px) {
-                    .coverflow-item {
-                         max-width: 360px;
-                    }
-                     .coverflow-container {
-                        height: 520px;
-                    }
-                 }
-            `}</style>
         </>
     );
 };

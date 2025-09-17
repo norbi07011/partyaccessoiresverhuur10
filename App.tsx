@@ -8,6 +8,7 @@ import WhyUs from './components/WhyUs';
 import Packages from './components/Packages';
 import EventPlanner from './components/EventPlanner';
 import Products from './components/Products';
+import RobotComingSoonCard from './components/RobotComingSoonCard';
 import RotatingGallery from './components/RotatingGallery';
 import MediaLibrary from './components/MediaLibrary';
 import Permits from './components/Permits';
@@ -58,9 +59,12 @@ const AppContent: React.FC = () => {
                 <hr className="border-none h-px bg-[linear-gradient(90deg,transparent,rgba(255,0,255,0.5),rgba(0,229,255,0.5),transparent)] my-16" />
                 <Packages t={t} lang={lang} />
                 <hr className="border-none h-px bg-[linear-gradient(90deg,transparent,rgba(255,0,255,0.5),rgba(0,229,255,0.5),transparent)] my-16" />
-                <EventPlanner t={t} lang={lang} />
-                <hr className="border-none h-px bg-[linear-gradient(90deg,transparent,rgba(255,0,255,0.5),rgba(0,229,255,0.5),transparent)] my-16" />
-                <Products t={t} />
+                                <EventPlanner t={t} lang={lang} />
+                                <hr className="border-none h-px bg-[linear-gradient(90deg,transparent,rgba(255,0,255,0.5),rgba(0,229,255,0.5),transparent)] my-16" />
+                                <div className="flex flex-col items-center gap-8 mb-8">
+                                    <RobotComingSoonCard />
+                                    <Products t={t} />
+                                </div>
                 <RotatingGallery t={t} />
                 <MediaLibrary t={t} />
                 <Permits t={t} />

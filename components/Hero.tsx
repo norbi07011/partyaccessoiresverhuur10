@@ -1,12 +1,21 @@
 
-import React from 'react';
-import { Language } from '../constants';
+import React, { useState, useEffect } from 'react';
+import { Language, PRODUCTS } from '../constants';
 
 interface HeroProps {
     t: (key: keyof Language) => string;
 }
 
+const heroImages = [
+    '/images/strona głowna.jpg',
+    '/images/strona głowna1.jpg',
+    '/images/strona głowna2.jpg',
+    '/images/strona głowna3.jpg',
+    '/images/strona głowna4.jpg',
+];
+
 const Hero: React.FC<HeroProps> = ({ t }) => {
+    const [bgIndex, setBgIndex] = useState(0);
     const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
         e.preventDefault();
         const targetElement = document.querySelector(targetId);
@@ -15,9 +24,27 @@ const Hero: React.FC<HeroProps> = ({ t }) => {
         }
     };
 
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setBgIndex(i => (i + 1) % heroImages.length);
+        }, 4000);
+        return () => clearInterval(interval);
+    }, []);
+
     return (
-        <header id="hero" className="relative py-20 px-0 overflow-hidden">
-            <div className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <header
+            id="hero"
+            className={`relative min-h-[1400px] flex items-center px-0 overflow-hidden transition-all duration-700`}
+            style={{
+                backgroundImage: `url(${encodeURIComponent(heroImages[bgIndex]).replace(/%2F/g, '/')})`,
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center',
+                backgroundColor: '#000',
+            }}
+        >
+            <div className="absolute inset-0 bg-black/60 z-0" />
+            <div className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
                 <div className="mb-8 lg:mb-0">
                     <div className="flex items-center gap-3 mb-4">
                         <img 
@@ -67,11 +94,7 @@ const Hero: React.FC<HeroProps> = ({ t }) => {
                         </a>
                     </div>
                 </div>
-                <div className="relative h-[420px] neon-panel p-2">
-                    <img src="/images/IMPREZOWE NAMIOT LED,.jpg" alt="Namiot imprezowy LED" className="w-full h-full object-cover rounded-lg" />
-                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent rounded-lg pointer-events-none"></div>
-                    <h2 className="absolute bottom-4 left-4 text-white text-xl logo-font pointer-events-none">Namiot imprezowy LED</h2>
-                </div>
+                {/* Możesz dodać tu karuzelę lub inne elementy */}
             </div>
         </header>
     );

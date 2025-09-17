@@ -1,27 +1,23 @@
 import { Product, Package, MediaItem } from './types';
 
 export const PRODUCTS: Product[] = [
+  // === NEW: ROBOT – COMING SOON ===
   {
-    id:'tent', 
-    name:'Opblaasbare feesttent met accessoires', 
-    img:'/images/IMPREZOWE NAMIOT LED,.jpg', 
-    priceOld:400, 
-    price:275, 
-    sale:true, 
-    product:'Namiot LED',
-    description: 'Zmień swój ogród w epickie centrum imprezy! Nasz namiot LED z oświetleniem, nagłośnieniem i wytwornicą dymu to gwarancja niezapomnianych wrażeń. Idealny na urodziny, rocznice i spotkania z przyjaciómi.',
+    id: "robot-animator-180",
+    name: "Animator zabaw – ROBOT (wynajem)",
+    img: "/images/Animator zabaw – ROBOT.jpg",
+    price: 180,
+    priceOld: undefined,
+    sale: false,
+    product: "ROBOT animator",
+    description: "Mega przyciągacz uwagi! Profesjonalny animator w stroju ROBOTA na Twojej imprezie. Idealny na otwarcia, urodziny, festyny i gale. Rezerwacje od grudnia. (PL) Publiekstrekker! Professionele animator in ROBOT kostuum op jouw event. Perfect voor openingen, verjaardagen en festivals. Boekingen vanaf december.",
     gallery: [
-      '/images/IMPREZOWE NAMIOT LED,.jpg',
-      '/images/Opblaasbare feesttent met accessoires.jpg',
-      '/images/Opblaasbare feesttent met accessoires (2).jpg',
-      '/images/Opblaasbare feesttent met accessoires (3).jpg',
-      '/images/Opblaasbare feesttent met accessoires (4).jpg',
-      '/images/Opblaasbare feesttent met accessoires (5).jpg',
-      '/images/Opblaasbare feesttent met accessoires (6).jpg',
-      '/images/Opblaasbare feesttent met accessoires (7).jpg',
-      '/images/partini-tentini.jpg.jpg',
-      '/images/jblini-trututini.jpg.jpg',
+      "/images/robot-01.jpg",
+      "/images/robot-02.jpg",
+      "/images/robot.jpg",
+      "/images/Animator zabaw – ROBOT.jpg"
     ]
+    // comingSoon, availableFromIso, languageTags, tags, ctas, isAvailable, slug – można dodać do typu Product jeśli potrzebujesz pełnej obsługi
   },
   {
     id:'cotton', 
