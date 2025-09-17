@@ -34,7 +34,7 @@ const Hero: React.FC<HeroProps> = ({ t }) => {
     return (
         <header
             id="hero"
-            className={`relative min-h-[1400px] flex items-center px-0 overflow-hidden transition-all duration-700`}
+            className={`relative min-h-[400px] md:min-h-[700px] lg:min-h-[1400px] flex items-center px-2 md:px-6 overflow-hidden transition-all duration-700`}
             style={{
                 backgroundImage: `url(${encodeURIComponent(heroImages[bgIndex]).replace(/%2F/g, '/')})`,
                 backgroundSize: 'cover',
@@ -44,7 +44,7 @@ const Hero: React.FC<HeroProps> = ({ t }) => {
             }}
         >
             <div className="absolute inset-0 bg-black/60 z-0" />
-            <div className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
+            <div className="container mx-auto px-2 md:px-4 grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-12 lg:gap-16 items-center relative z-10">
                 <div className="mb-8 lg:mb-0">
                     <div className="flex items-center gap-3 mb-4">
                         <img 
@@ -53,13 +53,13 @@ const Hero: React.FC<HeroProps> = ({ t }) => {
                             className="h-20 w-auto rounded-md shadow-xl shadow-purple-500/30 border border-purple-500/20" 
                         />
                     </div>
-                    <h1 
-                       className="logo-font text-2xl md:text-3xl text-white leading-snug my-6 max-w-xl"
-                    >
+                          <h1 
+                              className="logo-font text-lg xs:text-xl sm:text-2xl md:text-3xl text-white leading-snug my-4 md:my-6 max-w-xl"
+                          >
                         {t('hero.sub')}
                     </h1>
 
-                     <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-lg font-bold mb-8">
+                     <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-base md:text-lg font-bold mb-6 md:mb-8">
                         <a href="tel:+31642512086" className="text-white hover:text-cyan-400 transition-colors flex items-center gap-2">
                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-400" viewBox="0 0 20 20" fill="currentColor">
                                 <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.518.759a11.03 11.03 0 006.364 6.364l.759-1.518a1 1 0 011.06-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
@@ -74,7 +74,7 @@ const Hero: React.FC<HeroProps> = ({ t }) => {
                         </a>
                     </div>
                     
-                    <div className="flex gap-4 flex-wrap my-5">
+                    <div className="flex gap-2 md:gap-4 flex-wrap my-4 md:my-5">
                         <a 
                             href="#calendar" 
                             onClick={(e) => handleNavClick(e, '#calendar')} 
