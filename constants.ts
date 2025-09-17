@@ -16,7 +16,7 @@ export const PRODUCTS: Product[] = [
       "/images/robot-02.jpg",
       "/images/robot.jpg",
       "/images/Animator zabaw – ROBOT.jpg"
-    ]
+    ],
     // comingSoon, availableFromIso, languageTags, tags, ctas, isAvailable, slug – można dodać do typu Product jeśli potrzebujesz pełnej obsługi
   },
   {
